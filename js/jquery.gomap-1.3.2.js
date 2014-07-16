@@ -649,6 +649,30 @@
 		getVisibleMarkerCount: function() {
 			return this.getMarkers('visiblesInMap').length;
 		},
+        
+        /*check if a group is visible*/
+        getVisibleGroup: function(group){
+          
+          for (var i = 0, l = this.markers.length; i < l; i++) {
+            if($(this.mapId).data(this.markers[i]).group == group){
+                if(this.getVisibleMarker(this.markers[i]))
+                    return true;
+                }
+                return false;
+          }
+          return false;
+        },
+          
+          /*check if a group exists*/
+        getExistGroup: function(group){
+            for (var i = 0, l = this.markers.length; i < l; i++) {
+                if($(this.mapId).data(this.markers[i]).group == group)                                
+                    return true;
+                else
+                    return false;
+            }
+            return false;
+        },
 
 		getMarkerByGroupCount: function(group) {
 			return this.getMarkers('group', group).length;
@@ -865,6 +889,21 @@
 
 		isVisible: function(latlng) {
 			return this.map.getBounds().contains(latlng);
-		}
+		},
+        
+        /*displays coordinates from KML file*/
+        displayKML: function (URL,preserveViewport,suppressInfoWindows){
+            
+            var KmlOptions = {};
+            
+            if(!preserveViewport)
+                KmlOptions.preserveViewport=false;
+            if(!preserveViewport)
+                KmlOptions.suppressInfoWindows=false;            
+
+            var kmlLayer = new google.maps.KmlLayer({url: URL},KmlOptions);            
+            kmlLayer.setMap(this.map);
+            
+        }
 	}
 })(jQuery);
